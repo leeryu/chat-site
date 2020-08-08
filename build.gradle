@@ -1,0 +1,68 @@
+buildscript {
+    ext {
+        sprinBootVersion = '2.3.2.RELEASE';
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${sprinBootVersion}")
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE"
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'com.leeryu'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '1.8'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly('org.projectlombok:lombok')
+        compile('org.springframework.boot:spring-boot-starter-jdbc')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+        runtime('mysql:mysql-connector-java')
+        runtime('com.h2database:h2')
+    }
+}
+
+project(':chat-common') {
+    dependencies {
+        implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    }
+}
+
+project(':chat-web') {
+    dependencies {
+        compile project(':chat-common')
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        compileOnly 'org.projectlombok:lombok'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+    }
+}
+
+project(':chat-api') {
+    dependencies {
+        compile project(':chat-common')
+    }
+}
+
+project(':chat-batch') {
+    dependencies {
+        compile project(':chat-common')
+    }
+}

@@ -1,0 +1,6 @@
+rootProject.name = 'chat-site'
+include 'chat-web'
+include 'chat-api'
+include 'chat-common'
+include 'chat-batch'
+

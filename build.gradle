@@ -30,6 +30,8 @@ subprojects {
         compileOnly('org.projectlombok:lombok')
         compile('org.springframework.boot:spring-boot-starter-jdbc')
         testCompile('org.springframework.boot:spring-boot-starter-test')
+        annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
         runtime('mysql:mysql-connector-java')
         runtime('com.h2database:h2')
     }
@@ -37,7 +39,7 @@ subprojects {
 
 project(':chat-common') {
     dependencies {
-        implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+        compile('org.springframework.boot:spring-boot-starter-data-jpa')
     }
 }
 
@@ -45,10 +47,8 @@ project(':chat-web') {
     dependencies {
         compile project(':chat-common')
         implementation 'org.springframework.boot:spring-boot-starter-web'
-        compileOnly 'org.projectlombok:lombok'
+        implementation 'org.springframework.boot:spring-boot-starter-mustache'
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
-        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-        annotationProcessor 'org.projectlombok:lombok'
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         }
